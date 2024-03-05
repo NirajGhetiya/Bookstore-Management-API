@@ -10,7 +10,10 @@ import models
 import Service.bookService as  bookService
 
 models.Base.metadata.create_all(bind=engine)
-app = FastAPI()
+app = FastAPI(
+    # title="Book Store API",
+    # description="Bookstore Management API with Python, FastAPI, Docker, and Postgres"
+)
 app.include_router(router, prefix="/book", tags=["book"])
 
 

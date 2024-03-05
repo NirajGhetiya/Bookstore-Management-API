@@ -1,0 +1,26 @@
+version: '3.10'
+
+services:
+  web:
+    build: .
+    depends_on:
+      - db
+    volumes:
+      -  .:/usr/src/personalised_nudges
+   
+    ports:
+      - "8000:8000"
+
+  db:
+      image: postgres:15-alpine
+      volumes:
+        - postgres_data:/var/lib/postgresql/data/
+      expose:
+        - 5432
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=Niraj123
+        - POSTGRES_DB=book
+
+volumes:
+      postgres_data:
