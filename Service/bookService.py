@@ -29,12 +29,14 @@ def get_book_by_id(id:int,db: Session):
     
     book = repository.get_book_by_id(db,id)
     if not book:
-       return None
-    return book
+       return {"code":404,"msg":"No such book found"}
+    return {"code":200,"msg":"Deleted Successfully", "data":book}
 
-def get_books(db: Session ):
-    books =repository.get_books(db)
-    return books
+def get_books(db: Session ,pageNumber,pageSize ):
+    data =repository.get_books(db)
+    if len(data) is 0:
+        return {"code":404,"msg":"No such book found"}
+    return {"total":len(data),"per_page":pageSize,"current_page":pageNumber,"data":data[(pageNumber-1)*pageSize:((pageNumber-1)*pageSize)+pageSize]}
 
 def create_book(book:BookDto,db:Session):
     book2 = repository.get_book_by_isbn(db,book.isbn)
@@ -63,30 +65,10 @@ def update_book(id:id,book:BookDto,db:Session):
     data = repository.update_book(db,id,book)
     return {"code":200,"msg":"Updated Successfully" ,"data":data} 
 
-
-  
-
-# def create_new_book(    request: Request) -> Response:
-#     new_book = book_schema.load(json.loads(request.body.decode('utf-8')), session='create')
-#     if new_book.errors:
-#         return json_response({"status": "fail", "message": "Validation error", "data": new_book.errors}, status
-#         return json_response({'errors': new_book.errors}, status=422)
-#     else:
-#         try:
-#             repository.add_book(new_book.data)
-#             return json_response(book_with_token_schema.dump(new_book.data), status=201)
-#         except Exception as e:  
-#             print("Error in adding a new book to the database")
-#             print(e)
-#             return json_response({"error": "Internal Server Error"}, status=500)
-            
-
-# def update_book(request: Request) -> Response:
-#     id = int(request.match_info["id"])
-#     data = json.loads(request.body.decode('utf-8'))
-#     # Checking whether there are any changes made or not
-#     if set(data.keys()) == {'index', 'title', 'author'} and all(v is None for v in data.    values()):
-#         return json_response({'error':'No updates were provided.'},status=422)
-#     book = repository.update_book(id, **data)
-#     if not book:
-#         return json_response({'error':'The specified book was not found.'},status=404)
+def search_book(title:str,pageNumber,pageSize, db: Session):
+    books = repository.get_books(db)
+    query = title.lower()
+    data = [book for book in books if query in book.title.lower()]
+    if len(data) is 0:
+        return {"code":404,"msg":"No such book found"}
+    return {"total":len(data),"per_page":pageSize,"current_page":pageNumber,"data":data[(pageNumber-1)*pageSize:((pageNumber-1)*pageSize)+pageSize]}

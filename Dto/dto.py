@@ -11,4 +11,10 @@ class BookDto(BaseModel):
     author:str
     class Config:
         orm_mode = True
+class BookResponsDto(BaseModel):
+    id:int
+    title: str 
+    isbn: str
+    price:str
+    author:str      
     

@@ -18,18 +18,18 @@ def get_db():
     finally:
         db.close()
 
-@router.get("/book/{id:int}")
+@router.get("/{id:int}")
 def root(id,db: Session = Depends(get_db) ):
     data=bookService.get_book_by_id(id,db)
-    return {"code":200, "status":"success","data":data}
+    return data
     
 @router.get("/books/")
-def read_books(db:Session =Depends(get_db)):
-    data = bookService.get_books(db)
-    return{"code":200, "status":"success","data":data}
+def read_books(db:Session =Depends(get_db),pageNumber:int=1,pageSize:int=10):
+    data = bookService.get_books(db,pageNumber,pageSize)
+    return data
 
 @router.post("/addBooks/")
-def create_book(book:BookDto ,db:Session = Depends(get_db)):
+def create_book(book:BookDto,db:Session =Depends(get_db)):
    return  bookService.create_book(book,db)
      
 @router.delete("/{id:int}")
@@ -40,7 +40,7 @@ def delete_book(id,db:Session=Depends(get_db)):
 def update_book(id,book:BookDto,db:Session=Depends(get_db)):
     return bookService.update_book(id,book,db)
 
-@router.get("/search/{keyword}")
-def search_book(keyword,db:Session=Depends(get_db)):
-    data=bookService.search_book(keyword,db)
+@router.get("/search/{title}")
+def search_book(title,pageNumber:int=1,pageSize:int=10,db:Session=Depends(get_db)):
+     return bookService.search_book(title,pageNumber,pageSize,db)
    
