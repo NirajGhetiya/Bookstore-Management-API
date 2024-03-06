@@ -14,7 +14,7 @@ app = FastAPI(
     # title="Book Store API",
     # description="Bookstore Management API with Python, FastAPI, Docker, and Postgres"
 )
-app.include_router(router, prefix="/book", tags=["book"])
+app.include_router(router, prefix="/books", tags=["books"])
 
 
 

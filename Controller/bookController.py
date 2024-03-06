@@ -19,16 +19,16 @@ def get_db():
         db.close()
 
 @router.get("/{id:int}")
-def root(id,db: Session = Depends(get_db) ):
+def book_by_id(id,db: Session = Depends(get_db) ):
     data=bookService.get_book_by_id(id,db)
     return data
     
-@router.get("/books/")
-def read_books(db:Session =Depends(get_db),pageNumber:int=1,pageSize:int=10):
+@router.get("/")
+def get_books(db:Session =Depends(get_db),pageNumber:int=1,pageSize:int=10):
     data = bookService.get_books(db,pageNumber,pageSize)
     return data
 
-@router.post("/addBooks/")
+@router.post("/")
 def create_book(book:BookDto,db:Session =Depends(get_db)):
    return  bookService.create_book(book,db)
      
@@ -36,7 +36,7 @@ def create_book(book:BookDto,db:Session =Depends(get_db)):
 def delete_book(id,db:Session=Depends(get_db)):
     return bookService.delete_book(id,db)     
 
-@router.put("/updateBook/{id}")
+@router.put("/{id:int}")
 def update_book(id,book:BookDto,db:Session=Depends(get_db)):
     return bookService.update_book(id,book,db)
 
