@@ -30,7 +30,7 @@ def get_book_by_id(id:int,db: Session):
     book = repository.get_book_by_id(db,id)
     if not book:
        return {"code":404,"msg":"No such book found"}
-    return {"code":200,"msg":"Deleted Successfully", "data":book}
+    return {"code":200,"msg":"get Successfully", "data":book}
 
 def get_books(db: Session ,pageNumber,pageSize ):
     data =repository.get_books(db)

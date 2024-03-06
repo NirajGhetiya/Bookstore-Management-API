@@ -37,9 +37,9 @@ def test_get_books():
         "price": "150",
         "author" : "Robert Kiyosaki",  
     }
-    client.post("/book/addBooks", json=book_data)
+    client.post("/books", json=book_data)
 
-    response = client.get("/book/books/")
+    response = client.get("/books")
     assert response.status_code == 200
     data = response.json()
     assert data["total"] == 1
@@ -51,7 +51,7 @@ def test_add_book():
         "price": "150",
         "author" : "Robert Kiyosaki",  
     }
-    response = client.post("/book/addBooks", json=book_data)
+    response = client.post("/books", json=book_data)
     assert response.status_code == 200
     data = response.json()
     assert data["code"] == 201
@@ -64,7 +64,7 @@ def test_add_book():
     }
 
 def test_delete_book():
-    response = client.delete("/book/2")
+    response = client.delete("/books/2")
     assert response.status_code == 200
     data = response.json()
     assert data["msg"] == "Deleted Successfully"
@@ -83,7 +83,7 @@ def test_update_book():
         "price": "250",
         "author" : "Robert Greene",  
     }
-    response = client.put("/book/updateBook/1", json=book_data)
+    response = client.put("/books/1", json=book_data)
     assert response.status_code == 200
     data = response.json()
     assert data["msg"] == "Updated Successfully"
@@ -96,7 +96,7 @@ def test_update_book():
     }
 
 def test_search_book():
-    response = client.get("/book/search/The Mastery")
+    response = client.get("/books/search/The Mastery")
     assert response.status_code == 200
     data = response.json()
     assert data["data"] == [{
@@ -106,3 +106,15 @@ def test_search_book():
         "author" : "Robert Greene", 
         "id" : 1
     }]
+
+def test_get_book_by_id():
+    response = client.get("/books/1")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["data"] == {
+        "title": "The Mastery",
+        "isbn" : "123321",
+        "price": "250",
+        "author" : "Robert Greene", 
+        "id" : 1
+    }
