@@ -1,7 +1,5 @@
 # Bookstore Management API with Python, FastAPI, Docker, and PostgreSQL
 
-This project aims to replicate the functionalities of a provided Spring Boot project but using Python, FastAPI, Docker, and PostgreSQL.
-
 ## Project Goal
 
 Develop a RESTful API for managing a bookstore inventory, utilizing Python, FastAPI, PostgreSQL, and Docker.
@@ -71,13 +69,9 @@ Integrate Swagger for API documentation with clear descriptions and examples for
 
 ### API Development
 
-- Define the FastAPI application in `api.py`.
+- Define the FastAPI application in `app.py`.
 - Implement API endpoints using FastAPI routing and validation for user input.
 - Link each endpoint with appropriate service logic.
-
-### Documentation
-
-- Integrate Swagger for API documentation, providing detailed descriptions and examples for each endpoint.
 
 ### Dockerization
 
